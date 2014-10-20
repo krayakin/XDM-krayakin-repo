@@ -1,0 +1,22 @@
+{
+    "name": "XDM krayakin repo",
+    "info_url": "https://github.com/krayakin/XDM-krayakin-repo/",
+    "plugins": {
+        "com.krayakin.goodreadswatchlist": [
+            {
+                "major_version": 0,
+                "minor_version": 1,
+                "name": "GoodReads watchlist",
+                "type": "MediaAdder",
+                "format": "zip",
+                "desc": "Add books from your http://www.goodreads.com watchlist.",
+                "xdm_version": [
+                    0,
+                    5,
+                    18
+                ],
+                "download_url": "https://github.com/krayakin/XDM-krayakin-repo/archive/master.zip"
+            }
+        ]
+    }
+}
