@@ -15,9 +15,11 @@ class goodreadswatchlist(MediaAdder):
     addMediaTypeOptions = False
     screenName = 'GoodReads Watchlist'
     _config = {'apikey': '',
-               'watchtag': 'toread'}
+               'watchtag': 'toread',
+               'userid':'' }
     config_meta = {'plugin_desc': 'Add books from your http://www.goodreads.com watchlist',
-                   'watchtag': {'human': 'Tag assigned to books to download'}}
+                   'watchtag': {'human': 'Tag assigned to books to download'},
+                   'userid': {'human': 'GoodReads UserID'}}
 
     types = ['de.lad1337.books']
 
@@ -29,9 +31,12 @@ class goodreadswatchlist(MediaAdder):
             return []
         out = []
 
+        payload = {'key': self.c.apikey,
+                   'id': self.c.userid}
 
         searchUrl = '%s/review/list/?v=2' % baseURL
-        #r = requests.get(url, params = payload)
+        r = requests.get(searchUrl, params = payload)
+        log.debug(r)
         #shows = self._getWatchlist(showWatchlistURL, self.c.username, self.c.password, self.c.apikey)
         #for show in shows:
         #    additionalData = {}
