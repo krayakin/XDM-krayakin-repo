@@ -31,10 +31,11 @@ class goodreadswatchlist(MediaAdder):
             return []
         out = []
 
-        payload = {'key': self.c.apikey,
+        payload = {'v':2,
+                   'key': self.c.apikey,
                    'id': self.c.userid}
 
-        searchUrl = '%s/review/list/?v=2' % baseURL
+        searchUrl = '%s/review/list/' % baseURL
         r = requests.get(searchUrl, params = payload)
         log.debug(r)
         #shows = self._getWatchlist(showWatchlistURL, self.c.username, self.c.password, self.c.apikey)
