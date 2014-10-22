@@ -6,7 +6,7 @@
             {
                 "major_version": 0,
                 "minor_version": 1,
-                "name": "GoodReads watchlist",
+                "name": "GoodReads Watchlist",
                 "type": "MediaAdder",
                 "format": "zip",
                 "desc": "Add books from your http://www.goodreads.com watchlist.",
