@@ -9,7 +9,7 @@ baseURL = 'http://www.goodreads.com'
 #showWatchlistURL = baseURL + "user/watchlist/shows.json/"
 #unwatchlistShowURL = baseURL + "show/unwatchlist/"
 
-class goodreadsWatchlist(MediaAdder):
+class goodreadswatchlist(MediaAdder):
     version = "0.1"
     identifier = "com.krayakin.goodreadswatchlist"
     addMediaTypeOptions = False
@@ -30,7 +30,7 @@ class goodreadsWatchlist(MediaAdder):
         out = []
 
 
-        searchUrl = '%s/search.xml' % baseURL
+        searchUrl = '%s/review/list/?v=2' % baseURL
         #r = requests.get(url, params = payload)
         #shows = self._getWatchlist(showWatchlistURL, self.c.username, self.c.password, self.c.apikey)
         #for show in shows:
