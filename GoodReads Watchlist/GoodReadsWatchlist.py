@@ -10,7 +10,7 @@ baseURL = 'http://www.goodreads.com'
 #unwatchlistShowURL = baseURL + "show/unwatchlist/"
 
 class goodreadswatchlist(MediaAdder):
-    version = "0.19"
+    version = "0.200"
     identifier = "com.krayakin.goodreadswatchlist"
     addMediaTypeOptions = False
     screenName = 'GoodReads Watchlist'
@@ -64,10 +64,13 @@ class goodreadswatchlist(MediaAdder):
             oauth_response = oauth.parse_authorization_response(self.c.responseurl)
 
             self.c.oauth_verifier = oauth_response.get('oauth_verifier')
-
-            oauth.resource_owner_key = self.c.request_token_key
-            oauth.resource_owner_secret = self.c.request_token_secret
-            oauth.verifier = self.c.oauth_verifier
+            oauth = OAuth1Session(
+                client_key=self.c.apikey,
+                client_secret=self.c.apisecret,
+                resource_owner_key = self.c.request_token_key,
+                resource_owner_secret = self.c.request_token_secret,
+                verifier = self.c.oauth_verifier,
+            )
 
             oauth_tokens = oauth.fetch_access_token(access_token_url)
             self.c.oauth_token = oauth_tokens.get('oauth_token')
@@ -75,10 +78,13 @@ class goodreadswatchlist(MediaAdder):
 
         out = []
 
-
-        oauth.resource_owner_key = self.c.oauth_token
-        oauth.resource_owner_secret = self.c.oauth_secret
-        oauth.verifier = self.c.oauth_verifier
+        oauth = OAuth1Session(
+            client_key=self.c.apikey,
+            client_secret=self.c.apisecret,
+            resource_owner_key = self.c.oauth_token,
+            resource_owner_secret = self.c.oauth_secret,
+            verifier = self.c.oauth_verifier,
+        )
 
         payload = {'v': 2,
                    'id': self.c.userid}
