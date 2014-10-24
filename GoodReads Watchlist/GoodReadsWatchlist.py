@@ -37,7 +37,7 @@ class goodreadswatchlist(MediaAdder):
 
         searchUrl = '%s/review/list/' % baseURL
         r = requests.get(searchUrl, params = payload)
-        log.debug('' + r.text())
+        log.debug('' + r)
         #shows = self._getWatchlist(showWatchlistURL, self.c.username, self.c.password, self.c.apikey)
         #for show in shows:
         #    additionalData = {}
