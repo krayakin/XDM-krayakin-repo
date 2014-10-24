@@ -1,6 +1,7 @@
-from xdm.plugins import *
-import requests
 from requests_oauthlib import OAuth1Session
+
+from xdm.plugins import *
+
 
 baseURL = 'http://www.goodreads.com'
 #movieWatchlistURL = baseURL + "user/watchlist/movies.json/"
@@ -10,7 +11,7 @@ baseURL = 'http://www.goodreads.com'
 #unwatchlistShowURL = baseURL + "show/unwatchlist/"
 
 class goodreadswatchlist(MediaAdder):
-    version = "0.203"
+    version = "0.204"
     identifier = "com.krayakin.goodreadswatchlist"
     addMediaTypeOptions = False
     screenName = 'GoodReads Watchlist'
@@ -88,7 +89,7 @@ class goodreadswatchlist(MediaAdder):
 
         payload = {'v': 2,
                    'id': self.c.userid,
-                   'format': 'xml',
+                   'format': 'json',
                    'shelf': self.c.watchtag
         }
 
