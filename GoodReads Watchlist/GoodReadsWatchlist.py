@@ -1,6 +1,6 @@
 from xdm.plugins import *
 import requests
-
+from requests_oauthlib import OAuth1Session
 
 baseURL = 'http://www.goodreads.com'
 #movieWatchlistURL = baseURL + "user/watchlist/movies.json/"
@@ -10,16 +10,27 @@ baseURL = 'http://www.goodreads.com'
 #unwatchlistShowURL = baseURL + "show/unwatchlist/"
 
 class goodreadswatchlist(MediaAdder):
-    version = "0.17"
+    version = "0.18"
     identifier = "com.krayakin.goodreadswatchlist"
     addMediaTypeOptions = False
     screenName = 'GoodReads Watchlist'
     _config = {'apikey': '',
+               'apisecret': '',
+               'request_token_key': '',
+               'request_token_secret': '',
+               'oauth_verifier': '',
+               'oauth_token': '',
+               'oauth_secret': '',
+               'authurl': '',
+               'responseurl': '',
                'watchtag': 'toread',
-               'userid':'' }
+               'userid': ''
+    }
+
     config_meta = {'plugin_desc': 'Add books from your http://www.goodreads.com watchlist',
                    'watchtag': {'human': 'Tag assigned to books to download'},
-                   'userid': {'human': 'GoodReads UserID'}}
+                   'userid': {'human': 'GoodReads UserID'}
+    }
 
     types = ['de.lad1337.books']
 
@@ -27,16 +38,54 @@ class goodreadswatchlist(MediaAdder):
         MediaAdder.__init__(self, instance=instance)
 
     def runShedule(self):
-        if not (self.c.apikey):
+        if not self.c.apikey:
             return []
+
+        request_token_url = 'http://www.goodreads.com/oauth/request_token'
+        base_authorization_url = 'http://www.goodreads.com/oauth/request_token'
+        access_token_url = 'http://www.goodreads.com/oauth/access_token'
+
+        oauth = OAuth1Session(
+            client_key=self.c.apikey,
+            client_secret=self.c.apisecret
+        )
+
+        if not self.c.authurl:
+            #obtain the resource owner client tokens
+            fetch_response = oauth.fetch_request_token(request_token_url)
+
+            self.c.request_token_key = fetch_response.get('oauth_token')
+            self.c.request_token_secret = fetch_response.get('oauth_token_secret')
+
+            self.c.authurl = oauth.authorization_url(base_authorization_url)
+            return []
+
+        if not self.c.oauth_token:
+            oauth_response = oauth.parse_authorization_response(self.c.responseurl)
+
+            self.c.oauth_verifier = oauth_response.get('oauth_verifier')
+
+            oauth.resource_owner_key = self.c.request_token_key
+            oauth.resource_owner_secret = self.c.request_token_secret
+            oauth.verifier = self.c.oauth_verifier
+
+            oauth_tokens = oauth.fetch_access_token(access_token_url)
+            self.c.oauth_token = oauth_tokens.get('oauth_token')
+            self.c.oauth_secret = oauth_tokens.get('oauth_token_secret')
+
         out = []
 
-        payload = {'v':2,
-                   'key': self.c.apikey,
+
+        oauth.resource_owner_key = self.c.oauth_token
+        oauth.resource_owner_secret = self.c.oauth_secret
+        oauth.verifier = self.c.oauth_verifier
+
+        payload = {'v': 2,
                    'id': self.c.userid}
 
-        searchUrl = '%s/review/list/' % baseURL
-        r = requests.get(searchUrl, params = payload)
+        searchUrl = '%s/review/list' % baseURL
+        r = oauth.get(searchUrl, data=payload)
+        #r = requests.get(searchUrl, params = payload)
         log.debug('' + r.text)
         #shows = self._getWatchlist(showWatchlistURL, self.c.username, self.c.password, self.c.apikey)
         #for show in shows:
@@ -49,24 +98,3 @@ class goodreadswatchlist(MediaAdder):
         #                          show['title'],
         #                          additionalData=additionalData))
         return out
-
-    #def successfulAdd(self, mediaList):
-        #"""media list is a list off all the stuff to remove
-        #with the same objs that where returned in runShedule() """
-        #"""if self.c.remove_movies and len(mediaList):
-        #    return self._removeFromWatchlist(self.c.username, self.c.password, self.c.apikey, mediaList)
-        #return True """
-
-    # get the movie watchlist
-    def _getWatchlist(self, watchURL, apikey):
-        url = self._makeURL(watchURL, apikey)
-
-        payload = {
-                   'key': self.c.api_key}
-        log.debug("Calling goodreads url: %s" % url, censor={key: 'key'})
-        try:
-            r = requests.get(url, params = payload)
-            return r.json()
-        except:
-            return []
-
