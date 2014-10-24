@@ -10,7 +10,7 @@ baseURL = 'http://www.goodreads.com'
 #unwatchlistShowURL = baseURL + "show/unwatchlist/"
 
 class goodreadswatchlist(MediaAdder):
-    version = "0.201"
+    version = "0.202"
     identifier = "com.krayakin.goodreadswatchlist"
     addMediaTypeOptions = False
     screenName = 'GoodReads Watchlist'
@@ -87,7 +87,9 @@ class goodreadswatchlist(MediaAdder):
         )
 
         payload = {'v': 2,
-                   'id': self.c.userid}
+                   'id': self.c.userid,
+                   'format': 'xml'
+        }
 
         searchUrl = '%s/review/list' % baseURL
         r = oauth.get(searchUrl, params=payload)
