@@ -10,7 +10,7 @@ baseURL = 'http://www.goodreads.com'
 #unwatchlistShowURL = baseURL + "show/unwatchlist/"
 
 class goodreadswatchlist(MediaAdder):
-    version = "0.202"
+    version = "0.203"
     identifier = "com.krayakin.goodreadswatchlist"
     addMediaTypeOptions = False
     screenName = 'GoodReads Watchlist'
@@ -88,7 +88,8 @@ class goodreadswatchlist(MediaAdder):
 
         payload = {'v': 2,
                    'id': self.c.userid,
-                   'format': 'xml'
+                   'format': 'xml',
+                   'shelf': self.c.watchtag
         }
 
         searchUrl = '%s/review/list' % baseURL
