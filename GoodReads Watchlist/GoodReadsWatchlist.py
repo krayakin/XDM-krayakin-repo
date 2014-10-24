@@ -8,7 +8,7 @@ from xdm.plugins import *
 baseURL = 'http://www.goodreads.com'
 
 class goodreadswatchlist(MediaAdder):
-    version = "0.209"
+    version = "0.210"
     identifier = "com.krayakin.goodreadswatchlist"
     addMediaTypeOptions = False
     screenName = 'GoodReads Watchlist'
@@ -94,7 +94,7 @@ class goodreadswatchlist(MediaAdder):
         searchUrl = '%s/review/list' % baseURL
         r = oauth.get(searchUrl, params=payload)
         #r = requests.get(searchUrl, params = payload)
-        books = xmltodict.parse(r.text).GoodreadsResponse.reviews
+        books = xmltodict.parse(r.text)['GoodreadsResponse']['reviews']
         log.debug('' + str(books))
         #shows = self._getWatchlist(showWatchlistURL, self.c.username, self.c.password, self.c.apikey)
         #for show in shows:
