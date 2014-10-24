@@ -10,7 +10,7 @@ baseURL = 'http://www.goodreads.com'
 
 
 class goodreadswatchlist(MediaAdder):
-    version = "0.216"
+    version = "0.217"
     identifier = "com.krayakin.goodreadswatchlist"
     addMediaTypeOptions = False
     screenName = 'GoodReads Watchlist'
@@ -105,7 +105,7 @@ class goodreadswatchlist(MediaAdder):
         #rating = ''
 
         for book in books:
-            log.debug('ID:%s Title:%s Author:%s Image:%s Rating:%s' % (book['book']['id'], book.get('title','<NULL>'), book['authors']['author']['name'], book.get('image_url','<NULL>'), book.get('average_rating',0)))
+            log.debug('ID:%s Title:%s Author:%s Image:%s Rating:%s' % (book['book']['id'], book['book']['title'], book['book']['authors']['author']['name'], book['book']['image_url'], book['book']['average_rating']))
 
         #shows = self._getWatchlist(showWatchlistURL, self.c.username, self.c.password, self.c.apikey)
         #for show in shows:

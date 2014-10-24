@@ -5,7 +5,7 @@
         "com.krayakin.goodreadswatchlist": [
             {
                 "major_version": 0,
-                "minor_version": 216,
+                "minor_version": 217,
                 "name": "GoodReads Watchlist",
                 "type": "MediaAdder",
                 "format": "zip",
