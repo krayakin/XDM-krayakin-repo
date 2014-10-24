@@ -10,7 +10,7 @@ baseURL = 'http://www.goodreads.com'
 #unwatchlistShowURL = baseURL + "show/unwatchlist/"
 
 class goodreadswatchlist(MediaAdder):
-    version = "0.18"
+    version = "0.19"
     identifier = "com.krayakin.goodreadswatchlist"
     addMediaTypeOptions = False
     screenName = 'GoodReads Watchlist'
@@ -42,7 +42,7 @@ class goodreadswatchlist(MediaAdder):
             return []
 
         request_token_url = 'http://www.goodreads.com/oauth/request_token'
-        base_authorization_url = 'http://www.goodreads.com/oauth/request_token'
+        base_authorization_url = 'http://www.goodreads.com/oauth/authorize'
         access_token_url = 'http://www.goodreads.com/oauth/access_token'
 
         oauth = OAuth1Session(
