@@ -1,5 +1,7 @@
 from requests_oauthlib import OAuth1Session
 
+import xml2dict
+
 from xdm.plugins import *
 
 
@@ -11,7 +13,7 @@ baseURL = 'http://www.goodreads.com'
 #unwatchlistShowURL = baseURL + "show/unwatchlist/"
 
 class goodreadswatchlist(MediaAdder):
-    version = "0.205"
+    version = "0.206"
     identifier = "com.krayakin.goodreadswatchlist"
     addMediaTypeOptions = False
     screenName = 'GoodReads Watchlist'
@@ -96,7 +98,7 @@ class goodreadswatchlist(MediaAdder):
         searchUrl = '%s/review/list' % baseURL
         r = oauth.get(searchUrl, params=payload)
         #r = requests.get(searchUrl, params = payload)
-        log.debug('' + r.json())
+        log.debug('' + xml2dict.parse(r.text))
         #shows = self._getWatchlist(showWatchlistURL, self.c.username, self.c.password, self.c.apikey)
         #for show in shows:
         #    additionalData = {}
