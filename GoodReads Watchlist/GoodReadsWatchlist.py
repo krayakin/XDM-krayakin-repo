@@ -10,7 +10,7 @@ baseURL = 'http://www.goodreads.com'
 
 
 class goodreadswatchlist(MediaAdder):
-    version = "0.214"
+    version = "0.215"
     identifier = "com.krayakin.goodreadswatchlist"
     addMediaTypeOptions = False
     screenName = 'GoodReads Watchlist'
@@ -98,8 +98,15 @@ class goodreadswatchlist(MediaAdder):
 
         books = xmltodict.parse(r.text)['GoodreadsResponse']['reviews']['review']
         log.debug(json.dumps(books))
-        #for book in books:
-        #    log.debug(book[''])
+
+        #title = ''
+        #author = ''
+        #cover_image = ''
+        #rating = ''
+
+        for book in books:
+            log.debug('ID:%s Title:%s Author:%s Image:%s Rating:%s' % (book['book']['id'],book['title'], book['authors']['author']['name'], book['image_url'], book['average_rating']))
+            log.debug()
         #shows = self._getWatchlist(showWatchlistURL, self.c.username, self.c.password, self.c.apikey)
         #for show in shows:
         #    additionalData = {}
