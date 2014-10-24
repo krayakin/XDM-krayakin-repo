@@ -10,7 +10,7 @@ baseURL = 'http://www.goodreads.com'
 
 
 class goodreadswatchlist(MediaAdder):
-    version = "0.211"
+    version = "0.212"
     identifier = "com.krayakin.goodreadswatchlist"
     addMediaTypeOptions = False
     screenName = 'GoodReads Watchlist'
